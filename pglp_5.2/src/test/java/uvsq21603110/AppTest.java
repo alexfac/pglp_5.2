@@ -127,12 +127,69 @@ public class AppTest {
       statement.execute(delete);
       delete = "DROP TABLE Groupe";
       statement.execute(delete);
-      
+
       String Table = " CREATE TABLE Personnel(nom varchar(30), prenom varchar(30), fonction varchar (30), arrivee DATE)";
       statement.execute(Table);
       Table = " CREATE TABLE Groupe(nom varchar(30))";
       statement.execute(Table);
       connexion.close();
+    } catch (SQLException | ClassNotFoundException throwables) {
+      throwables.printStackTrace();
+      try{
+        connexion.close();
+      } catch (SQLException sql){
+        sql.printStackTrace();
+      }
+    }
+  }
+
+  @Test
+  public void testInsertDAOJdbcPersonnel(){
+    Connection connexion = null;
+    Statement statement = null;
+    String url = "jdbc:derby:personnel;create=true";
+    try {
+      Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+      connexion = DriverManager.getConnection(url);
+      statement = connexion.createStatement();
+
+      String delete = "DROP TABLE Personnel";
+      statement.execute(delete);
+      String Table = " CREATE TABLE Personnel(nom varchar(30), prenom varchar(30), fonction varchar (30), arrivee DATE)";
+      statement.execute(Table);
+      connexion.close();
+      DAO daopersonnel = new DAOJdbcPersonnel();
+      Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
+      daopersonnel.create(p);
+    } catch (SQLException | ClassNotFoundException throwables) {
+      throwables.printStackTrace();
+      try{
+        connexion.close();
+      } catch (SQLException sql){
+        sql.printStackTrace();
+      }
+    }
+  }
+
+  @Test
+  public void testdeleteDAOJdbcPersonnel(){
+    Connection connexion = null;
+    Statement statement = null;
+    String url = "jdbc:derby:personnel;create=true";
+    try {
+      Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+      connexion = DriverManager.getConnection(url);
+      statement = connexion.createStatement();
+
+      String delete = "DROP TABLE Personnel";
+      statement.execute(delete);
+      String Table = " CREATE TABLE Personnel(nom varchar(30), prenom varchar(30), fonction varchar (30), arrivee DATE)";
+      statement.execute(Table);
+      connexion.close();
+      DAO daopersonnel = new DAOJdbcPersonnel();
+      Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
+      daopersonnel.create(p);
+      daopersonnel.delete("Test");
     } catch (SQLException | ClassNotFoundException throwables) {
       throwables.printStackTrace();
       try{

@@ -2,7 +2,7 @@ package uvsq21603110;
 
 import java.io.*;
 
-public class DAOGroupe implements DAO<Groupe> {
+public class DAOGroupe extends DAO<Groupe> {
     @Override
     public Groupe create(Groupe obj) {
         try (ObjectOutputStream out =
@@ -40,7 +40,7 @@ public class DAOGroupe implements DAO<Groupe> {
     }
 
     @Override
-    public void delete(Groupe obj) {
+    public void delete(String nom) {
 
     }
 }

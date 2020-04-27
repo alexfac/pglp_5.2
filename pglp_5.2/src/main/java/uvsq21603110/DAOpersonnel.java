@@ -2,7 +2,7 @@ package uvsq21603110;
 
 import java.io.*;
 
-public class DAOpersonnel implements DAO<Personnel> {
+public class DAOpersonnel extends DAO<Personnel> {
   @Override
   public Personnel create(Personnel obj) {
     try (ObjectOutputStream out =
@@ -41,5 +41,5 @@ public class DAOpersonnel implements DAO<Personnel> {
   }
 
   @Override
-  public void delete(Personnel obj) {}
+  public void delete(String nom) {}
 }
