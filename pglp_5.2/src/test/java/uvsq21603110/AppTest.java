@@ -3,8 +3,11 @@ package uvsq21603110;
 import org.junit.Test;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -108,5 +111,28 @@ public class AppTest {
     daogroupe.create(g);
     Groupe g1 = (Groupe) daogroupe.find("personnel");
     assertNotNull(g1.getListGroup());
+  }
+
+  @Test
+  public void testDAOJDBC(){
+    Connection connexion = null;
+    Statement statement = null;
+    String url = "jdbc:derby:personnel;create=true";
+    try {
+      Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+      connexion = DriverManager.getConnection(url);
+      statement = connexion.createStatement();
+
+      String Table = " CREATE TABLE Personnel(nom varchar(30), prenom varchar(30), fonction varchar (30), arrivee DATE)";
+      statement.execute(Table);
+      connexion.close();
+    } catch (SQLException | ClassNotFoundException throwables) {
+      throwables.printStackTrace();
+      /*try{
+        connexion.close();
+      } catch (SQLException sql){
+        sql.printStackTrace();
+      }*/
+    }
   }
 }
