@@ -1,6 +1,7 @@
 package uvsq21603110;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -25,8 +26,22 @@ public class DAOJdbcPersonnel extends DAO<Personnel>{
     }
 
     @Override
-    public Personnel find(String id) {
-        return null;
+    public Personnel find(String nom) {
+        this.connexion();
+        Personnel personnel = null;
+        try {
+            PreparedStatement SelectPersonnel = this.connexion.prepareStatement("SELECT * FROM Personnel WHERE nom = ?");
+            SelectPersonnel.setString(1,nom);
+            SelectPersonnel.execute();
+            ResultSet Res = SelectPersonnel.executeQuery();
+            if (Res.next()){
+                personnel = new Personnel.Builder(Res.getString("nom"), Res.getString("prenom"), Res.getString("fonction")).build();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        this.deconnexion();
+        return personnel;
     }
 
     @Override

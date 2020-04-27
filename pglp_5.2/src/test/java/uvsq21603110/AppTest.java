@@ -172,6 +172,39 @@ public class AppTest {
   }
 
   @Test
+  public void testfindDAOJdbcPersonnel(){
+    Connection connexion = null;
+    Statement statement = null;
+    String url = "jdbc:derby:personnel;create=true";
+    try {
+      Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+      connexion = DriverManager.getConnection(url);
+      statement = connexion.createStatement();
+
+      String delete = "DROP TABLE Personnel";
+      statement.execute(delete);
+      String Table = " CREATE TABLE Personnel(nom varchar(30), prenom varchar(30), fonction varchar (30), arrivee DATE)";
+      statement.execute(Table);
+      connexion.close();
+      DAO daopersonnel = new DAOJdbcPersonnel();
+      Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
+      daopersonnel.create(p);
+      Personnel p1 = (Personnel) daopersonnel.find("Test");
+      System.out.println(p1.getNom());
+      System.out.println(p1.getPrenom());
+      System.out.println(p1.getFonction());
+      assertEquals(p.getNom(), p1.getNom());
+    } catch (SQLException | ClassNotFoundException throwables) {
+      throwables.printStackTrace();
+      try{
+        connexion.close();
+      } catch (SQLException sql){
+        sql.printStackTrace();
+      }
+    }
+  }
+
+  @Test
   public void testdeleteDAOJdbcPersonnel(){
     Connection connexion = null;
     Statement statement = null;
