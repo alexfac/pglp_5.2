@@ -7,10 +7,15 @@ import java.util.List;
 
 public class Groupe extends Equipe implements Serializable {
 
+  public String getNom() {
+    return nom;
+  }
+
+  private String nom;
   private List PersonnelList;
 
-  public Groupe() {
-
+  public Groupe(String nom) {
+    this.nom = nom;
     this.PersonnelList = new ArrayList<Personnel>();
   }
 

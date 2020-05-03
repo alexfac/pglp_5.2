@@ -4,7 +4,7 @@ enum AppSingleton {
   ENVIRONNEMENT;
 
   public void run(String[] args) {
-    Groupe g = new Groupe();
+    Groupe g = new Groupe("g1");
     Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
     Personnel p2 = new Personnel.Builder("Test", "Test", "Testeur").build();
     Personnel p3 = new Personnel.Builder("Test", "Test", "Testeur").build();

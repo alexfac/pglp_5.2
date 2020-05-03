@@ -38,7 +38,7 @@ public class AppTest {
 
   @Test
   public void testInitGroupe() {
-    Groupe g = new Groupe();
+    Groupe g = new Groupe("1");
     Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
     g.add2Groupe(p);
     assertTrue(g != null);
@@ -46,7 +46,7 @@ public class AppTest {
 
   @Test
   public void testADDGroupe() {
-    Groupe g = new Groupe();
+    Groupe g = new Groupe("1");
     Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
     g.add2Groupe(p);
     assertEquals(g.getListPerso().size(), 1);
@@ -55,7 +55,7 @@ public class AppTest {
   @Test
   public void persoSerializable() {
 
-    Groupe g = new Groupe();
+    Groupe g = new Groupe("1");
     Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
     g.add2Groupe(p);
     assertEquals(g.getListPerso().size(), 1);
@@ -107,7 +107,7 @@ public class AppTest {
     DAOFactory dao = new DAOFactory();
     DAO daogroupe = new DAOGroupe();
     Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
-    Groupe g= new Groupe();
+    Groupe g= new Groupe("1");
     daogroupe.create(g);
     Groupe g1 = (Groupe) daogroupe.find("personnel");
     assertNotNull(g1.getListGroup());
@@ -232,4 +232,37 @@ public class AppTest {
       }
     }
   }
+
+  @Test
+  public void testdeleteDAOJdbcGroupe(){
+    Connection connexion = null;
+    Statement statement = null;
+    String url = "jdbc:derby:Groupe;create=true";
+    try {
+      Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+      connexion = DriverManager.getConnection(url);
+      statement = connexion.createStatement();
+
+      String delete = "DROP TABLE Groupe";
+      statement.execute(delete);
+
+      String Table = " CREATE TABLE Groupe(nom varchar(30))";
+      statement.execute(Table);
+      connexion.close();
+      DAO daogroupe = new DAOJdbcGroupe();
+      Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
+      Groupe g = new Groupe("1");
+      g.add2Groupe(p);
+      daogroupe.create(g);
+      daogroupe.delete("1");
+    } catch (SQLException | ClassNotFoundException throwables) {
+      throwables.printStackTrace();
+      try{
+        connexion.close();
+      } catch (SQLException sql){
+        sql.printStackTrace();
+      }
+    }
+  }
+
 }

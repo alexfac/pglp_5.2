@@ -3,7 +3,6 @@ package uvsq21603110;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class DAOJdbcPersonnel extends DAO<Personnel>{
     @Override
