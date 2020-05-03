@@ -1,14 +1,19 @@
 package uvsq21603110;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.Comparator;
 
 import static org.junit.Assert.*;
 
@@ -20,7 +25,7 @@ public class AppTest {
   public static Statement statement = null;
 
   @BeforeClass
-  public static void init() {
+  public static void initDAOJdbc() {
 
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -33,8 +38,7 @@ public class AppTest {
       statement.execute(delete);
       delete = "DROP TABLE Appartient";
       statement.execute(delete);
-
-
+      
       String Table = "CREATE TABLE Personnel(nom varchar(30), prenom varchar(30), fonction varchar (30), arrivee DATE)";
       statement.execute(Table);
       Table = "CREATE TABLE Groupe(nom varchar(50))";
@@ -184,18 +188,7 @@ public class AppTest {
 
   @Test
   public void testInsertDAOJdbcPersonnel(){
-    /*Connection connexion = null;
-    Statement statement = null;
-    String url = "jdbc:derby:personnel;create=true";*/
-    /*Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-    connexion = DriverManager.getConnection(url);
-    statement = connexion.createStatement();
 
-    String delete = "DROP TABLE Personnel";
-    statement.execute(delete);
-    String Table = " CREATE TABLE Personnel(nom varchar(30), prenom varchar(30), fonction varchar (30), arrivee DATE)";
-    statement.execute(Table);
-    connexion.close();*/
     DAO daopersonnel = new DAOJdbcPersonnel();
     Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
     daopersonnel.create(p);
@@ -203,18 +196,7 @@ public class AppTest {
 
   @Test
   public void testfindDAOJdbcPersonnel(){
-    /*Connection connexion = null;
-    Statement statement = null;
-    String url = "jdbc:derby:personnel;create=true";*/
-    /*Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-    connexion = DriverManager.getConnection(url);
-    statement = connexion.createStatement();
 
-    String delete = "DROP TABLE Personnel";
-    statement.execute(delete);
-    String Table = " CREATE TABLE Personnel(nom varchar(30), prenom varchar(30), fonction varchar (30), arrivee DATE)";
-    statement.execute(Table);
-    connexion.close();*/
     DAO daopersonnel = new DAOJdbcPersonnel();
     Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
     daopersonnel.create(p);
