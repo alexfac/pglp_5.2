@@ -17,7 +17,7 @@ public abstract class DAO<T> {
   public abstract void delete(String nom);
 
   public void connexion() {
-    String url = "jdbc:derby:personnel;create=true";
+    String url = "jdbc:derby:test;create=true";
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
     } catch (ClassNotFoundException e) {

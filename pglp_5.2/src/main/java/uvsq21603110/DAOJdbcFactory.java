@@ -9,7 +9,7 @@ public class DAOJdbcFactory {
     public Connection connexion = null;
 
     public void connexion() throws SQLException, ClassNotFoundException {
-        String url = "jdbc:derby:personnel;create=true";
+        String url = "jdbc:derby:test;create=true";
         Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
         connexion = DriverManager.getConnection(url);
     }

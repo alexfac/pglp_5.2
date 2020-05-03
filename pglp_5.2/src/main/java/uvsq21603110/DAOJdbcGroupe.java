@@ -9,12 +9,20 @@ public class DAOJdbcGroupe extends DAO<Groupe>{
     public Groupe create(Groupe obj) {
         this.connexion();
         try{
-            PreparedStatement InsertPersonnelGroupe = this.connexion.prepareStatement("INSERT INTO Groupe(nom) VALUES(?)");
-            InsertPersonnelGroupe.setString(1, obj.getNom());
-            InsertPersonnelGroupe.execute();
+            PreparedStatement InsertGroupe = this.connexion.prepareStatement("INSERT INTO Groupe(nom) VALUES(?)");
+            InsertGroupe.setString(1, obj.getNom());
+            InsertGroupe.execute();
+
+            for(Personnel p : obj.getListPerso()){
+                PreparedStatement InsertPersonnelGroupe = this.connexion.prepareStatement("INSERT INTO Appartient(nomg, nomperso) VALUES(?, ?)");
+                InsertPersonnelGroupe.setString(1, obj.getNom());
+                InsertPersonnelGroupe.setString(2, p.getNom());
+                InsertPersonnelGroupe.execute();
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        this.deconnexion();
         return obj;
     }
 
@@ -29,6 +37,17 @@ public class DAOJdbcGroupe extends DAO<Groupe>{
             ResultSet Res = SelectGroupe.executeQuery();
             if (Res.next()){
                 Groupe = new Groupe(Res.getString("nom"));
+                PreparedStatement SelectPersoGroupe = this.connexion.prepareStatement("SELECT * FROM Appartient WHERE nomg = ?");
+                SelectPersoGroupe.setString(1,nom);
+                SelectPersoGroupe.execute();
+                ResultSet Res1 = SelectPersoGroupe.executeQuery();
+                if (Res1.next()){
+                    DAOJdbcPersonnel perso= new DAOJdbcPersonnel();
+                    //System.out.println(Res1.getString(2));
+                    Groupe.add2Groupe(perso.find(Res1.getString(2)));
+                }else{
+                    System.out.println("pas de personnel");
+                }
             }else{
                 System.out.println("pas de groupe");
                 return null;
