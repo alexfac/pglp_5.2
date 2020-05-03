@@ -1,19 +1,14 @@
 package uvsq21603110;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.Comparator;
 
 import static org.junit.Assert.*;
 
@@ -38,7 +33,7 @@ public class AppTest {
       statement.execute(delete);
       delete = "DROP TABLE Appartient";
       statement.execute(delete);
-      
+
       String Table = "CREATE TABLE Personnel(nom varchar(30), prenom varchar(30), fonction varchar (30), arrivee DATE)";
       statement.execute(Table);
       Table = "CREATE TABLE Groupe(nom varchar(50))";
