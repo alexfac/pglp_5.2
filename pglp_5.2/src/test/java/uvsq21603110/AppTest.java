@@ -234,7 +234,7 @@ public class AppTest {
   }
 
   @Test
-  public void testdeleteDAOJdbcGroupe(){
+  public void testfinddeleteDAOJdbcGroupe(){
     Connection connexion = null;
     Statement statement = null;
     String url = "jdbc:derby:Groupe;create=true";
@@ -248,13 +248,18 @@ public class AppTest {
 
       String Table = " CREATE TABLE Groupe(nom varchar(30))";
       statement.execute(Table);
-      connexion.close();
+
       DAO daogroupe = new DAOJdbcGroupe();
       Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
       Groupe g = new Groupe("1");
+      Groupe g1;
       g.add2Groupe(p);
       daogroupe.create(g);
-      daogroupe.delete("1");
+      g1 = (Groupe) daogroupe.find("1");
+      if (g1 != null) {
+        daogroupe.delete("1");
+        System.out.println("Le groupe trouve et supprime");
+      }else System.out.println("Le groupe n'existe pas");
     } catch (SQLException | ClassNotFoundException throwables) {
       throwables.printStackTrace();
       try{
