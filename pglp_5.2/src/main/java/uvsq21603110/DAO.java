@@ -29,8 +29,9 @@ public abstract class DAO<T> {
       throwables.printStackTrace();
     }
   }
-  public void deconnexion(){
-    try{
+
+  public void deconnexion() {
+    try {
       connexion.close();
     } catch (SQLException throwables) {
       throwables.printStackTrace();

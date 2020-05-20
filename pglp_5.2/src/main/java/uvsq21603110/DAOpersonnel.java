@@ -6,9 +6,7 @@ public class DAOpersonnel extends DAO<Personnel> {
   @Override
   public Personnel create(Personnel obj) {
     try (ObjectOutputStream out =
-        new ObjectOutputStream(
-            new BufferedOutputStream(
-                new FileOutputStream("perso")))) {
+        new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("perso")))) {
       out.writeObject(obj);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -22,8 +20,7 @@ public class DAOpersonnel extends DAO<Personnel> {
   public Personnel find(String id) {
 
     Personnel personnel = null;
-    try (ObjectInputStream in =
-        new ObjectInputStream(new FileInputStream("perso"))) {
+    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("perso"))) {
       personnel = (Personnel) in.readObject();
     } catch (FileNotFoundException e) {
       e.printStackTrace();

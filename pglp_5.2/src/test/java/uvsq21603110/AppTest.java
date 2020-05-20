@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import static org.junit.Assert.*;
 
 /** Unit test for simple App. */
-
 public class AppTest {
 
   public static Connection connexion = null;
@@ -34,7 +33,8 @@ public class AppTest {
       delete = "DROP TABLE Appartient";
       statement.execute(delete);
 
-      String Table = "CREATE TABLE Personnel(nom varchar(30), prenom varchar(30), fonction varchar (30), arrivee DATE)";
+      String Table =
+          "CREATE TABLE Personnel(nom varchar(30), prenom varchar(30), fonction varchar (30), arrivee DATE)";
       statement.execute(Table);
       Table = "CREATE TABLE Groupe(nom varchar(50))";
       statement.execute(Table);
@@ -99,9 +99,7 @@ public class AppTest {
     assertEquals(g.getListPerso().size(), 1);
 
     try (ObjectOutputStream out =
-        new ObjectOutputStream(
-            new BufferedOutputStream(
-                new FileOutputStream("fileperso")))) {
+        new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("fileperso")))) {
       out.writeObject(g);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -110,9 +108,7 @@ public class AppTest {
     }
 
     try (ObjectInputStream in =
-        new ObjectInputStream(
-            new BufferedInputStream(
-                new FileInputStream("fileperso")))) {
+        new ObjectInputStream(new BufferedInputStream(new FileInputStream("fileperso")))) {
       Groupe g1 = (Groupe) in.readObject();
       for (Personnel p1 : g1.getListPerso()) {
         System.out.println(p1.getNom());
@@ -145,7 +141,7 @@ public class AppTest {
     DAOFactory dao = new DAOFactory();
     DAO daogroupe = new DAOGroupe();
     Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
-    Groupe g= new Groupe("1");
+    Groupe g = new Groupe("1");
     daogroupe.create(g);
     Groupe g1 = (Groupe) daogroupe.find("personnel");
     assertNotNull(g1.getListGroup());
@@ -182,7 +178,7 @@ public class AppTest {
   }*/
 
   @Test
-  public void testInsertDAOJdbcPersonnel(){
+  public void testInsertDAOJdbcPersonnel() {
 
     DAO daopersonnel = new DAOJdbcPersonnel();
     Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
@@ -190,7 +186,7 @@ public class AppTest {
   }
 
   @Test
-  public void testfindDAOJdbcPersonnel(){
+  public void testfindDAOJdbcPersonnel() {
 
     DAO daopersonnel = new DAOJdbcPersonnel();
     Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
@@ -203,7 +199,7 @@ public class AppTest {
   }
 
   @Test
-  public void testdeleteDAOJdbcPersonnel(){
+  public void testdeleteDAOJdbcPersonnel() {
     Connection connexion = null;
     Statement statement = null;
     String url = "jdbc:derby:personnel;create=true";
@@ -214,7 +210,8 @@ public class AppTest {
 
       String delete = "DROP TABLE Personnel";
       statement.execute(delete);
-      String Table = " CREATE TABLE Personnel(nom varchar(30), prenom varchar(30), fonction varchar (30), arrivee DATE)";
+      String Table =
+          " CREATE TABLE Personnel(nom varchar(30), prenom varchar(30), fonction varchar (30), arrivee DATE)";
       statement.execute(Table);
       connexion.close();
       DAO daopersonnel = new DAOJdbcPersonnel();
@@ -223,28 +220,28 @@ public class AppTest {
       daopersonnel.delete("Test");
     } catch (SQLException | ClassNotFoundException throwables) {
       throwables.printStackTrace();
-      try{
+      try {
         connexion.close();
-      } catch (SQLException sql){
+      } catch (SQLException sql) {
         sql.printStackTrace();
       }
     }
   }
 
   @Test
-  public void testFindpersoGroupeDAoJdbcGroupe(){
+  public void testFindpersoGroupeDAoJdbcGroupe() {
 
-      DAO daogroupe = new DAOJdbcGroupe();
-      Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
-      Groupe g = new Groupe("1");
-      g.add2Groupe(p);
-      daogroupe.create(g);
-      Groupe g1 = (Groupe) daogroupe.find("1");
-      assertEquals(g1.getListPerso().size() , g.getListPerso().size());
+    DAO daogroupe = new DAOJdbcGroupe();
+    Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
+    Groupe g = new Groupe("1");
+    g.add2Groupe(p);
+    daogroupe.create(g);
+    Groupe g1 = (Groupe) daogroupe.find("1");
+    assertEquals(g1.getListPerso().size(), g.getListPerso().size());
   }
 
   @Test
-  public void testfinddeleteDAOJdbcGroupe(){
+  public void testfinddeleteDAOJdbcGroupe() {
 
     DAO daogroupe = new DAOJdbcGroupe();
     Personnel p = new Personnel.Builder("Test", "Test", "Testeur").build();
@@ -256,7 +253,6 @@ public class AppTest {
     if (g1 != null) {
       daogroupe.delete("1");
       System.out.println("Le groupe a ete trouve et supprime");
-    }else System.out.println("Le groupe n'existe pas");
+    } else System.out.println("Le groupe n'existe pas");
   }
-
 }
