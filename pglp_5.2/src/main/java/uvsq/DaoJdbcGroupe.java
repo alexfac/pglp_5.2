@@ -1,25 +1,25 @@
-package uvsq21603110;
+package uvsq;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DAOJdbcGroupe extends DAO<Groupe> {
+public class DaoJdbcGroupe extends Dao<Groupe> {
   @Override
   public Groupe create(Groupe obj) {
     this.connexion();
     try {
-      PreparedStatement InsertGroupe =
+      PreparedStatement insertGroupe =
           this.connexion.prepareStatement("INSERT INTO Groupe(nom) VALUES(?)");
-      InsertGroupe.setString(1, obj.getNom());
-      InsertGroupe.execute();
+      insertGroupe.setString(1, obj.getNom());
+      insertGroupe.execute();
 
       for (Personnel p : obj.getListPerso()) {
-        PreparedStatement InsertPersonnelGroupe =
+        PreparedStatement insertPersonnelGroupe =
             this.connexion.prepareStatement("INSERT INTO Appartient(nomg, nomperso) VALUES(?, ?)");
-        InsertPersonnelGroupe.setString(1, obj.getNom());
-        InsertPersonnelGroupe.setString(2, p.getNom());
-        InsertPersonnelGroupe.execute();
+        insertPersonnelGroupe.setString(1, obj.getNom());
+        insertPersonnelGroupe.setString(2, p.getNom());
+        insertPersonnelGroupe.execute();
       }
     } catch (SQLException throwables) {
       throwables.printStackTrace();
@@ -31,24 +31,24 @@ public class DAOJdbcGroupe extends DAO<Groupe> {
   @Override
   public Groupe find(String nom) {
     this.connexion();
-    Groupe Groupe = null;
+    Groupe groupe = null;
     try {
-      PreparedStatement SelectGroupe =
+      PreparedStatement selectGroupe =
           this.connexion.prepareStatement("SELECT * FROM Groupe WHERE nom = ?");
-      SelectGroupe.setString(1, nom);
-      SelectGroupe.execute();
-      ResultSet Res = SelectGroupe.executeQuery();
-      if (Res.next()) {
-        Groupe = new Groupe(Res.getString("nom"));
-        PreparedStatement SelectPersoGroupe =
+      selectGroupe.setString(1, nom);
+      selectGroupe.execute();
+      ResultSet res = selectGroupe.executeQuery();
+      if (res.next()) {
+        groupe = new Groupe(res.getString("nom"));
+        PreparedStatement selectPersoGroupe =
             this.connexion.prepareStatement("SELECT * FROM Appartient WHERE nomg = ?");
-        SelectPersoGroupe.setString(1, nom);
-        SelectPersoGroupe.execute();
-        ResultSet Res1 = SelectPersoGroupe.executeQuery();
-        if (Res1.next()) {
-          DAOJdbcPersonnel perso = new DAOJdbcPersonnel();
+        selectPersoGroupe.setString(1, nom);
+        selectPersoGroupe.execute();
+        ResultSet res1 = selectPersoGroupe.executeQuery();
+        if (res1.next()) {
+          DaoJdbcPersonnel perso = new DaoJdbcPersonnel();
           // System.out.println(Res1.getString(2));
-          Groupe.add2Groupe(perso.find(Res1.getString(2)));
+          groupe.add2Groupe(perso.find(res1.getString(2)));
         } else {
           System.out.println("pas de personnel");
         }
@@ -60,7 +60,7 @@ public class DAOJdbcGroupe extends DAO<Groupe> {
       throwables.printStackTrace();
     }
     this.deconnexion();
-    return Groupe;
+    return groupe;
   }
 
   @Override
@@ -73,14 +73,13 @@ public class DAOJdbcGroupe extends DAO<Groupe> {
     this.connexion();
 
     try {
-      PreparedStatement DeleteGroupe =
+      PreparedStatement deleteGroupe =
           this.connexion.prepareStatement("DELETE FROM Groupe WHERE nom = ?");
-      DeleteGroupe.setString(1, nom);
-      DeleteGroupe.execute();
+      deleteGroupe.setString(1, nom);
+      deleteGroupe.execute();
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
-
     this.deconnexion();
   }
 }

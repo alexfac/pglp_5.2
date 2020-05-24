@@ -1,10 +1,10 @@
-package uvsq21603110;
+package uvsq;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public abstract class DAO<T> {
+public abstract class Dao<T> {
 
   Connection connexion = null;
 
@@ -16,6 +16,9 @@ public abstract class DAO<T> {
 
   public abstract void delete(String nom);
 
+  /**
+   * Connexion bd.
+   */
   public void connexion() {
     String url = "jdbc:derby:test;create=true";
     try {
@@ -24,15 +27,18 @@ public abstract class DAO<T> {
       e.printStackTrace();
     }
     try {
-      connexion = DriverManager.getConnection(url);
+      this.connexion = DriverManager.getConnection(url);
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
   }
 
+  /**
+   * Deconnexion bd.
+   */
   public void deconnexion() {
     try {
-      connexion.close();
+      this.connexion.close();
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }

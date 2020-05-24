@@ -1,7 +1,6 @@
-package uvsq21603110;
+package uvsq;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public abstract class Equipe {
 
@@ -15,6 +14,10 @@ public abstract class Equipe {
     this.listgroupe.add(g);
   }
 
+  /**
+   * Groupe liste.
+   * @return liste
+   */
   public ArrayList<Groupe> getListGroup() {
     // ArrayList<Groupe> unmodifiableList = (ArrayList<Groupe>)
     // Collections.unmodifiableList(listgroupe);

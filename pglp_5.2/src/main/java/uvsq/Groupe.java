@@ -1,4 +1,4 @@
-package uvsq21603110;
+package uvsq;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,20 +12,20 @@ public class Groupe extends Equipe implements Serializable {
   }
 
   private String nom;
-  private List PersonnelList;
+  private List personnelList;
 
   public Groupe(String nom) {
     this.nom = nom;
-    this.PersonnelList = new ArrayList<Personnel>();
+    this.personnelList = new ArrayList<Personnel>();
   }
 
   public void add2Groupe(Personnel p) {
 
-    this.PersonnelList.add(p);
+    this.personnelList.add(p);
   }
 
   public List<Personnel> getListPerso() {
-    List<Personnel> unmodifiableList = Collections.unmodifiableList(PersonnelList);
+    List<Personnel> unmodifiableList = Collections.unmodifiableList(personnelList);
     return unmodifiableList;
   }
 }

@@ -1,8 +1,8 @@
-package uvsq21603110;
+package uvsq;
 
 import java.io.*;
 
-public class DAOGroupe extends DAO<Groupe> {
+public class DaoGroupe extends Dao<Groupe> {
   @Override
   public Groupe create(Groupe obj) {
     try (ObjectOutputStream out =

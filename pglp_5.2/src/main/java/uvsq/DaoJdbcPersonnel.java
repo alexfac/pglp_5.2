@@ -1,23 +1,23 @@
-package uvsq21603110;
+package uvsq;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DAOJdbcPersonnel extends DAO<Personnel> {
+public class DaoJdbcPersonnel extends Dao<Personnel> {
   @Override
   public Personnel create(Personnel obj) {
     this.connexion();
 
     try {
-      PreparedStatement InsertPersonnel =
+      PreparedStatement insertPersonnel =
           this.connexion.prepareStatement(
               " INSERT INTO Personnel(nom,prenom,fonction,arrivee) VALUES(?,?,?,?)");
-      InsertPersonnel.setString(1, obj.getNom());
-      InsertPersonnel.setString(2, obj.getPrenom());
-      InsertPersonnel.setString(3, obj.getFonction());
-      InsertPersonnel.setString(4, String.valueOf(obj.getNaissance()));
-      InsertPersonnel.execute();
+      insertPersonnel.setString(1, obj.getNom());
+      insertPersonnel.setString(2, obj.getPrenom());
+      insertPersonnel.setString(3, obj.getFonction());
+      insertPersonnel.setString(4, String.valueOf(obj.getNaissance()));
+      insertPersonnel.execute();
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
@@ -31,15 +31,15 @@ public class DAOJdbcPersonnel extends DAO<Personnel> {
     this.connexion();
     Personnel personnel = null;
     try {
-      PreparedStatement SelectPersonnel =
+      PreparedStatement selectPersonnel =
           this.connexion.prepareStatement("SELECT * FROM Personnel WHERE nom = ?");
-      SelectPersonnel.setString(1, nom);
-      SelectPersonnel.execute();
-      ResultSet Res = SelectPersonnel.executeQuery();
-      if (Res.next()) {
+      selectPersonnel.setString(1, nom);
+      selectPersonnel.execute();
+      ResultSet res = selectPersonnel.executeQuery();
+      if (res.next()) {
         personnel =
             new Personnel.Builder(
-                    Res.getString("nom"), Res.getString("prenom"), Res.getString("fonction"))
+                    res.getString("nom"), res.getString("prenom"), res.getString("fonction"))
                 .build();
       }
     } catch (SQLException throwables) {
@@ -58,10 +58,10 @@ public class DAOJdbcPersonnel extends DAO<Personnel> {
   public void delete(String nom) {
     this.connexion();
     try {
-      PreparedStatement DeletePersonnel =
+      PreparedStatement deletePersonnel =
           this.connexion.prepareStatement("DELETE FROM Personnel WHERE nom = ?");
-      DeletePersonnel.setString(1, nom);
-      DeletePersonnel.execute();
+      deletePersonnel.setString(1, nom);
+      deletePersonnel.execute();
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }

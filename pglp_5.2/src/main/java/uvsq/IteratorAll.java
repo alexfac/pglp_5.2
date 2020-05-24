@@ -1,35 +1,35 @@
-package uvsq21603110;
+package uvsq;
 
 import java.util.Iterator;
 
 public class IteratorAll implements Iterator {
 
-  private Groupe e;
+  private Groupe gr;
   private int cmp;
 
   public IteratorAll(Groupe e) {
-    this.e = e;
+    this.gr = e;
     this.cmp = 0;
   }
 
   @Override
   public boolean hasNext() {
     try {
-      if (e.getListGroup().size() > cmp) {
+      if (gr.getListGroup().size() > cmp) {
         return true;
       }
       return false;
-    } catch (Exception E) {
-      E.getMessage();
+    } catch (Exception e) {
+      e.getMessage();
     }
     return false;
   }
 
   @Override
   public Personnel next() {
-    Personnel P;
-    P = e.getListPerso().get(cmp);
+    Personnel p;
+    p = gr.getListPerso().get(cmp);
     cmp++;
-    return P;
+    return p;
   }
 }

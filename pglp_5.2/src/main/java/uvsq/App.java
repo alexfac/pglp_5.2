@@ -1,6 +1,6 @@
-package uvsq21603110;
+package uvsq;
 
-enum AppSingleton {
+enum App {
   ENVIRONNEMENT;
 
   public void run(String[] args) {
